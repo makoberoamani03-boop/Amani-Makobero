@@ -1,0 +1,26 @@
+body{
+  margin: 0;
+  background-color: brown;
+}
+
+nav{
+  background color: blue;
+  color:white;
+  display: flex;
+  justify-content: space between;
+  padding:15px;
+}
+
+nav a{
+  color:white;
+  font size: 30;
+  text-decoration: none;
+}
+
+nav ul{
+  display : flex;
+  gap : 25px;
+  list-style:none;
+  padding: right;
+}
+
