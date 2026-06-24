@@ -1,109 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Simple Calculator</title>
   <style>
+    :root {
+      --bg: #f0f0f0;
+      --panel: #ffffff;
+      --shadow: rgba(0,0,0,0.12);
+      --accent: #6C5CE7;
+      --operator-bg: #f4f4f4;
+      --btn-size: 56px;
+    }
+    * { box-sizing: border-box; }
     body {
+      margin: 0;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      font-family: Arial;
-      background: #f0f0f0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
     }
 
     .calculator {
-      width: 220px;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px gray;
+      width: 260px;
+      background: var(--panel);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px var(--shadow);
     }
 
     #display {
       width: 100%;
-      height: 40px;
-      margin-bottom: 10px;
+      height: 56px;
+      margin-bottom: 12px;
       text-align: right;
-      font-size: 18px;
-      padding-right: 10px;
+      font-size: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #e6e6e6;
+      background: #fafafa;
+    }
+
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
     }
 
     button {
-      width: 45px;
-      height: 45px;
-      margin: 3px;
-      font-size: 16px;
+      height: var(--btn-size);
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      button:nth-child(1)  { background-color: #FF6B6B; color: red; } /* Nyekundu */
-button:nth-child(2)  { background-color: #FF9F43; color: orange; } /* Chungwa */
-button:nth-child(3)  { background-color: #FECA57; color: yellow; } /* Njano */
-button:nth-child(4)  { background-color: #48DBFB; color: blue; } /* Bluu */
-button:nth-child(5)  { background-color: #FF6B6B; color: black; }
-button:nth-child(6)  { background-color: #1DD1A1; color: green; } /* Kijani */
-button:nth-child(7)  { background-color: #A29BFE; color: purple; } /* Zambarau */
-button:nth-child(8)  { background-color: #FD79A8; color: pink; } /* Pink */
-button:nth-child(9)  { background-color: #FDCB6E; color: gold; } /* Dhahabu */
-button:nth-child(10) { background-color: #6C5CE7; color: white; } /* Indigo */
+      background: #f7f7f7;
+      transition: transform .06s ease, box-shadow .06s ease;
+    }
+    button:active { transform: translateY(1px); }
+
+    button[type="button"].operator {
+      background: var(--operator-bg);
+      color: #222;
+    }
+    button[type="button"].action {
+      background: #FF6B6B;
+      color: #fff;
+    }
+    button[type="button"].equals {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Material / Vibrant palette */
+    .color-1 { background:#E53935; color:#fff; }  /* red */
+    .color-2 { background:#FB8C00; color:#fff; }  /* orange */
+    .color-3 { background:#FDD835; color:#222; }  /* yellow */
+    .color-4 { background:#00ACC1; color:#fff; }  /* teal */
+    .color-5 { background:#00C853; color:#fff; }  /* green */
+    .color-6 { background:#5E35B1; color:#fff; }  /* deep purple */
+    .color-7 { background:#EC407A; color:#fff; }  /* pink */
+    .color-8 { background:#FFB300; color:#222; }  /* amber */
+    .color-9 { background:#3949AB; color:#fff; }  /* indigo */
+
+    /* Make the "=" button span one column taller if you want */
+    .span-two { grid-column: span 2; }
+    @media (max-width: 360px) {
+      .calculator { width: 92%; }
     }
   </style>
 </head>
-
 <body>
 
-<div class="calculator">
-  <input type="text" id="display" disabled>
+  <div class="calculator" role="application" aria-label="Simple calculator">
+    <input id="display" type="text" readonly aria-label="Calculator display" value="" />
 
-  <br>
-<button onclick="clearDisplay()">C</button>
-  <button onclick="press('%')">%</button>
-  <button onclick="clealastcharacter()">DEL</button>
-  <button onclick="press('/')">/</button>
-  <button onclick="press('9')">9</button>
-  <button onclick="press('8')">8</button>
-  <button onclick="press('7')">7</button>
-  <button onclick="press('*')">*</button>
+    <div class="keys" role="group" aria-label="Calculator keys">
+      <button type="button" class="action" data-action="clear" aria-label="Clear">C</button>
+      <button type="button" class="operator" data-value="%" aria-label="Percent">%</button>
+      <button type="button" class="operator" data-action="delete" aria-label="Delete">DEL</button>
+      <button type="button" class="operator" data-value="/" aria-label="Divide">÷</button>
 
-  <br>
+      <button type="button" data-value="9" class="color-1" aria-label="Nine">9</button>
+      <button type="button" data-value="8" class="color-2" aria-label="Eight">8</button>
+      <button type="button" data-value="7" class="color-3" aria-label="Seven">7</button>
+      <button type="button" class="operator" data-value="*" aria-label="Multiply">×</button>
 
-  <button onclick="press('6')">6</button>
-  <button onclick="press('5')">5</button>
-  <button onclick="press('5')">4</button>
-  <button onclick="press('-')">-</button>
+      <button type="button" data-value="6" aria-label="Six">6</button>
+      <button type="button" data-value="5" aria-label="Five">5</button>
+      <button type="button" data-value="4" aria-label="Four">4</button>
+      <button type="button" class="operator" data-value="-" aria-label="Minus">−</button>
 
-  <br>
+      <button type="button" data-value="3" aria-label="Three">3</button>
+      <button type="button" data-value="2" aria-label="Two">2</button>
+      <button type="button" data-value="1" aria-label="One">1</button>
+      <button type="button" class="operator" data-value="+" aria-label="Plus">+</button>
 
-  <button onclick="press('3')">3</button>
-  <button onclick="press('2')">2</button>
-  <button onclick="press('1')">1</button>
-  <button onclick="press('+')">+</button>
+      <button type="button" data-action="toggle-sign" aria-label="Toggle sign">+/-</button>
+      <button type="button" data-value="0" aria-label="Zero">0</button>
+      <button type="button" data-value="." aria-label="Decimal">.</button>
+      <button type="button" class="equals" data-action="calculate" aria-label="Equals">=</button>
+    </div>
+  </div>
 
-  <br>
-  <button onclick="press('+/-')">+/-</button>
-  <button onclick="press('0')">0</button>
-  <button onclick="press('.')">.</button>
-  <button onclick="calculate()">=</button>
-</div>
+  <script>
+    const display = document.getElementById('display');
+    const keys = document.querySelector('.keys');
 
-<script>
-  let display = document.getElementById("display");
-
-  function press(value) {
-    display.value += value;
-  }
-
-  function clearDisplay() {
-    display.value = "";
-  }
-
-  function calculate() {
-    try {
-      display.value = eval(display.value);
-    } catch {
-      display.value = "Error";
+    // Append a value to display (numbers, operators)
+    function append(value) {
+      // Avoid adding multiple operators in a row
+      const last = display.value.slice(-1);
+      if (/[\+\-\*\/\.%]/.test(last) && /[\+\-\*\/\.%]/.test(value)) return;
+      display.value += value;
     }
-  }
-</script>
 
+    // Clear all
+    function clearDisplay() { display.value = ''; }
+
+    // Delete last character
+    function deleteLast() { display.value = display.value.slice(0, -1); }
+
+    // Toggle sign of the last number (simple approach)
+    function toggleSign() {
+      // Find last number in expression
+      display.value = display.value.replace(/(-?\d+(\.\d+)?)$/ , (m) => {
+        return (parseFloat(m) * -1).toString();
+      });
+    }
+
+    // Safe-ish calculate
+    function calculate() {
+      if (!display.value) return;
+      let expr = display.value
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        // Convert percentage occurrences like "50%" => "(50/100)"
+        .replace(/(\d+(\.\d+)?)%/g, '($1/100)');
+
+      // Allow only digits, parentheses, whitespace and operators .+-*/%
+      if (!/^[0-9+\-*/().\s%]+$/.test(expr)) {
+        display.value = 'Error';
+        return;
+      }
+
+      try {
+        // Evaluate using Function (safer than raw eval) — still validate above
+        const result = Function('"use strict"; return (' + expr + ')')();
+        // Handle NaN/Infinity
+        if (result === Infinity || result === -Infinity || Number.isNaN(result)) {
+          display.value = 'Error';
+        } else {
+          display.value = String(result);
+        }
+      } catch (e) {
+        display.value = 'Error';
+      }
+    }
+
+    // Handle button clicks centrally
+    keys.addEventListener('click', (e) => {
+      const button = e.target.closest('button');
+      if (!button) return;
+      const val = button.dataset.value;
+      const action = button.dataset.action;
+
+      if (action === 'clear') clearDisplay();
+      else if (action === 'delete') deleteLast();
+      else if (action === 'toggle-sign') toggleSign();
+      else if (action === 'calculate') calculate();
+      else if (typeof val !== 'undefined') append(val);
+    });
+
+    // Keyboard support
+    document.addEventListener('keydown', (e) => {
+      const key = e.key;
+      if ((/^[0-9]$/).test(key)) append(key);
+      else if (key === 'Enter' || key === '=') { e.preventDefault(); calculate(); }
+      else if (key === 'Backspace') deleteLast();
+      else if (key === 'Escape') clearDisplay();
+      else if (['+','-','/','*','.','%','(',')'].includes(key)) append(key);
+    });
+
+    // Prevent typing into the readonly input via paste (optional)
+    display.addEventListener('paste', (ev) => {
+      ev.preventDefault();
+    });
+  </script>
 </body>
 </html>
