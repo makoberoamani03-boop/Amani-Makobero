@@ -74,16 +74,16 @@
       color: #fff;
     }
 
-    /* Material / Vibrant palette */
-    .color-1 { background:#E53935; color:#fff; }  /* red */
-    .color-2 { background:#FB8C00; color:#fff; }  /* orange */
-    .color-3 { background:#FDD835; color:#222; }  /* yellow */
-    .color-4 { background:#00ACC1; color:#fff; }  /* teal */
-    .color-5 { background:#00C853; color:#fff; }  /* green */
-    .color-6 { background:#5E35B1; color:#fff; }  /* deep purple */
-    .color-7 { background:#EC407A; color:#fff; }  /* pink */
-    .color-8 { background:#FFB300; color:#222; }  /* amber */
-    .color-9 { background:#3949AB; color:#fff; }  /* indigo */
+    /* Soft Pastel palette */
+    .color-1 { background:#FFD1DC; color:#222; } /* pastel pink */
+    .color-2 { background:#FFE3B3; color:#222; } /* pastel orange */
+    .color-3 { background:#FFF2B2; color:#222; } /* pastel yellow */
+    .color-4 { background:#BFF0FF; color:#022; } /* pastel cyan */
+    .color-5 { background:#C8F7E0; color:#022; } /* pastel mint */
+    .color-6 { background:#E9E0FF; color:#222; } /* pastel lavender */
+    .color-7 { background:#FFD6E8; color:#222; } /* pastel rose */
+    .color-8 { background:#FFF1D6; color:#222; } /* pastel peach */
+    .color-9 { background:#D8DAFF; color:#222; } /* pastel indigo */
 
     /* Make the "=" button span one column taller if you want */
     .span-two { grid-column: span 2; }
@@ -133,7 +133,7 @@
     function append(value) {
       // Avoid adding multiple operators in a row
       const last = display.value.slice(-1);
-      if (/[\+\-\*\/\.%]/.test(last) && /[\+\-\*\/\.%]/.test(value)) return;
+      if (/[+\-*\/.%]/.test(last) && /[+\-*\/.%]/.test(value)) return;
       display.value += value;
     }
 
